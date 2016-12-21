@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using Owin;
+using WebApi.Swagger;
 
 namespace WebApi
 {
@@ -19,6 +20,7 @@ namespace WebApi
             );
 
             appBuilder.UseWebApi(config);
+            appBuilder.UseSwagger(config);
         }
     }
 }
