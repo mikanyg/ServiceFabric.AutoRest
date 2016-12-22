@@ -24,8 +24,9 @@ namespace ClientService.Controllers
 
         // GET api/values 
         public async Task<IEnumerable<string>> Get()
-        {            
-            var partitionClient = new ServicePartitionClient<AutoRestCommunicationClient<WebApiClient>>(communicationFactory, statelessServiceUri, ServicePartitionKey.Singleton);
+        {
+            IReliableServiceClient<AutoRestCommunicationClient<WebApiClient>> partitionClient = 
+                new ReliableServiceClient<AutoRestCommunicationClient<WebApiClient>>(communicationFactory, statelessServiceUri, ServicePartitionKey.Singleton);
 
             var result = await partitionClient.InvokeWithRetryAsync(
                 async c => await c.ServiceClient.Values.GetAllAsync());
