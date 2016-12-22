@@ -13,7 +13,8 @@ namespace ClientService.Controllers
     [ServiceRequestActionFilter]
     public class ValuesController : ApiController
     {
-        private static readonly Uri serviceUri = new Uri("fabric:/ServiceFabric.AutoRest.Clients/WebApi");
+        private static readonly Uri statelessServiceUri = new Uri("fabric:/ServiceFabric.AutoRest.Clients/WebApi");
+        private static readonly Uri statefulServiceUri = new Uri("fabric:/ServiceFabric.AutoRest.Clients/WebApiStateful");        
         private static AutoRestCommunicationClientFactory<WebApiClient> communicationFactory;
 
         static ValuesController()
@@ -24,7 +25,7 @@ namespace ClientService.Controllers
         // GET api/values 
         public async Task<IEnumerable<string>> Get()
         {            
-            var partitionClient = new ServicePartitionClient<AutoRestCommunicationClient<WebApiClient>>(communicationFactory, serviceUri, ServicePartitionKey.Singleton);
+            var partitionClient = new ServicePartitionClient<AutoRestCommunicationClient<WebApiClient>>(communicationFactory, statelessServiceUri, ServicePartitionKey.Singleton);
 
             var result = await partitionClient.InvokeWithRetryAsync(
                 async c => await c.ServiceClient.Values.GetAllAsync());

@@ -9,7 +9,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace WebApiStateful
 {
-    [EventSource(Name = "MyCompany-ServiceFabric.AutoRest.Clients-WebApi")]
+    [EventSource(Name = "MyCompany-ServiceFabric.AutoRest.Clients-WebApiStateful")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
