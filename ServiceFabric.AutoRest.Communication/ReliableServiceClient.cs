@@ -5,14 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Client;
+using Microsoft.Rest;
 
 namespace ServiceFabric.AutoRest.Communication
 {
-    public class ReliableServiceClient<TCommunicationClient> : ServicePartitionClient<TCommunicationClient>, IReliableServiceClient<TCommunicationClient>
-        where TCommunicationClient : ICommunicationClient
+    public class AutoRestServicePartitionClient<TCommunicationClient> : ServicePartitionClient<AutoRestCommunicationClient<TCommunicationClient>>, IReliableServiceClient<AutoRestCommunicationClient<TCommunicationClient>>
+        where TCommunicationClient : ServiceClient<TCommunicationClient>
+
     {
-        public ReliableServiceClient(
-            ICommunicationClientFactory<TCommunicationClient> communicationClientFactory, 
+        public AutoRestServicePartitionClient(
+            ICommunicationClientFactory<AutoRestCommunicationClient<TCommunicationClient>> communicationClientFactory, 
             Uri serviceUri, 
             ServicePartitionKey partitionKey = null, 
             TargetReplicaSelector targetReplicaSelector = TargetReplicaSelector.Default, 
