@@ -30,7 +30,10 @@ namespace WebApiStateful
         {
             return new ServiceReplicaListener[]
             {
-                new ServiceReplicaListener(serviceContext => new OwinCommunicationListener(Startup.ConfigureApp, serviceContext, ServiceEventSource.Current, "ServiceEndpoint"),listenOnSecondary:true)
+                new ServiceReplicaListener(
+                    serviceContext =>
+                        new OwinCommunicationListener(Startup.ConfigureApp, serviceContext, ServiceEventSource.Current,
+                            "ServiceEndpoint"), listenOnSecondary: true)
             };
         }        
     }
