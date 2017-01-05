@@ -9,13 +9,13 @@ namespace WebApiStateful.Controllers
         // GET api/values 
         public IEnumerable<string> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "statefullValue1", "statefullValue2" };
         }
 
         // GET api/values/5 
         public string Get(int id)
         {
-            return "value";
+            return "statefullValue";
         }
 
         // POST api/values 

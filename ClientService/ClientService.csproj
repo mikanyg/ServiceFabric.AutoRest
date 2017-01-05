@@ -137,6 +137,10 @@
       <Project>{f0f20bdd-a064-4a17-98a9-47d8a9f70964}</Project>
       <Name>WebApi.AutoRest.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WebApiStateful.AutoRest.Client\WebApiStateful.AutoRest.Client.csproj">
+      <Project>{badd2053-7073-4425-82fd-d4caa6fb9839}</Project>
+      <Name>WebApiStateful.AutoRest.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
