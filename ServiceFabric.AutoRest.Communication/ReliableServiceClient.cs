@@ -9,17 +9,14 @@ using Microsoft.Rest;
 
 namespace ServiceFabric.AutoRest.Communication
 {
-    public class AutoRestServicePartitionClient<TCommunicationClient> : ServicePartitionClient<AutoRestCommunicationClient<TCommunicationClient>>, IReliableServiceClient<AutoRestCommunicationClient<TCommunicationClient>>
-        where TCommunicationClient : ServiceClient<TCommunicationClient>
-
+    public class AutoRestServicePartitionClient<TClient> : ServicePartitionClient<AutoRestCommunicationClient<TClient>>, IRestServicePartitionClient<TClient>
+        where TClient : ServiceClient<TClient>
     {
         public AutoRestServicePartitionClient(
-            ICommunicationClientFactory<AutoRestCommunicationClient<TCommunicationClient>> communicationClientFactory, 
-            Uri serviceUri, 
-            ServicePartitionKey partitionKey = null, 
-            TargetReplicaSelector targetReplicaSelector = TargetReplicaSelector.Default, 
-            string listenerName = null, 
-            OperationRetrySettings retrySettings = null) : base(communicationClientFactory, serviceUri, partitionKey, targetReplicaSelector, listenerName, retrySettings)
+            ICommunicationClientFactory<AutoRestCommunicationClient<TClient>> communicationClientFactory, Uri serviceUri,
+            ServicePartitionKey partitionKey = null, TargetReplicaSelector targetReplicaSelector = TargetReplicaSelector.Default, 
+            string listenerName = null, OperationRetrySettings retrySettings = null)
+            : base(communicationClientFactory, serviceUri, partitionKey, targetReplicaSelector, listenerName, retrySettings)
         {
         }
     }
