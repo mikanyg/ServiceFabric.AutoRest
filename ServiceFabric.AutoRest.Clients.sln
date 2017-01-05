@@ -17,6 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiStateful", "WebApiSta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiStateful.AutoRest.Client", "WebApiStateful.AutoRest.Client\WebApiStateful.AutoRest.Client.csproj", "{BADD2053-7073-4425-82FD-D4CAA6FB9839}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Statefull Service", "Statefull Service", "{D0BF4315-D232-4D80-AAB7-831FF191DA10}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stateless Service", "Stateless Service", "{74E7184E-BCA6-4029-AB65-C96751978210}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoRest Clients", "AutoRest Clients", "{A42C4711-970F-4B87-ADD5-DB43AF3B6EBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,5 +84,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5612A1C7-8342-49E5-9E9C-93C722CD71CB} = {74E7184E-BCA6-4029-AB65-C96751978210}
+		{F0F20BDD-A064-4A17-98A9-47D8A9F70964} = {A42C4711-970F-4B87-ADD5-DB43AF3B6EBB}
+		{6F227911-1788-4398-93E2-D30C01386384} = {D0BF4315-D232-4D80-AAB7-831FF191DA10}
+		{BADD2053-7073-4425-82FD-D4CAA6FB9839} = {A42C4711-970F-4B87-ADD5-DB43AF3B6EBB}
 	EndGlobalSection
 EndGlobal
