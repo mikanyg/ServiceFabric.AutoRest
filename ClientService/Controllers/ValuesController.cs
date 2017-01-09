@@ -4,6 +4,7 @@ using ServiceFabric.AutoRest.Communication;
 using System;
 using System.Collections.Generic;
 using System.Fabric;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApi.AutoRest.Client;
@@ -21,8 +22,10 @@ namespace ClientService.Controllers
 
         static ValuesController()
         {
-            statelessCommunicationFactory = new AutoRestCommunicationClientFactory<WebApiClient>();
-            statefullCommunicationFactory = new AutoRestCommunicationClientFactory<WebApi2>();
+            statelessCommunicationFactory =
+                new AutoRestCommunicationClientFactory<WebApiClient>();
+            statefullCommunicationFactory =
+                new AutoRestCommunicationClientFactory<WebApi2>(delegatingHandlers: () => new[] {new MyHandler()});
         }    
 
         // GET api/values 

@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Fabric;
 using System.Web.Http;
+using Microsoft.Owin;
 
 namespace WebApiStateful.Controllers
 {
@@ -15,7 +18,7 @@ namespace WebApiStateful.Controllers
         // GET api/values/5 
         public string Get(int id)
         {
-            return "statefullValue";
+            return $"statefullValue: time is {DateTime.Now} and internal path is: {Request.RequestUri.PathAndQuery}";
         }
 
         // POST api/values 

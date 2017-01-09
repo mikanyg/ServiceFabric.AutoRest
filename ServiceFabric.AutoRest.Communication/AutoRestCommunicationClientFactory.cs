@@ -14,16 +14,16 @@ namespace ServiceFabric.AutoRest.Communication
     public class AutoRestCommunicationClientFactory<TServiceClient> : CommunicationClientFactoryBase<AutoRestCommunicationClient<TServiceClient>>
         where TServiceClient : ServiceClient<TServiceClient>
     {
-        private readonly DelegatingHandler[] delegatingHandlers;
+        private readonly Func<IEnumerable<DelegatingHandler>> delegatingHandlers;
 
         public AutoRestCommunicationClientFactory(
             IServicePartitionResolver resolver = null,
-            IEnumerable<DelegatingHandler> delegatingHandlers = null,
+            Func<IEnumerable<DelegatingHandler>> delegatingHandlers = null,
             bool useDefaultExceptionHandler = true,
             IEnumerable<IExceptionHandler> exceptionHandlers = null)
             : base(resolver, CreateExceptionHandlers(useDefaultExceptionHandler, exceptionHandlers))
         {
-            this.delegatingHandlers = delegatingHandlers?.ToArray() ?? new DelegatingHandler[0];
+            this.delegatingHandlers = delegatingHandlers;
         }
 
         protected override void AbortClient(AutoRestCommunicationClient<TServiceClient> client)
@@ -34,10 +34,13 @@ namespace ServiceFabric.AutoRest.Communication
         protected override Task<AutoRestCommunicationClient<TServiceClient>> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
         {
             var baseUri = new Uri(endpoint);
-                        
-            var client = (TServiceClient)Activator.CreateInstance(typeof(TServiceClient), baseUri, delegatingHandlers);
+            var handlers = delegatingHandlers?.Invoke()?.ToArray() ?? new DelegatingHandler[0];
+
+            var client = (TServiceClient) Activator.CreateInstance(typeof(TServiceClient), baseUri, handlers);
+            
             // disabling AutoRest retry policy since Service Fabric has own retry logic.
             client.SetRetryPolicy(null);
+
             return Task.FromResult(new AutoRestCommunicationClient<TServiceClient>(client));                        
         }
 
@@ -60,6 +63,7 @@ namespace ServiceFabric.AutoRest.Communication
             if (useDefault)
             {
                 handlers.Add(new DefaultHttpExceptionHandler());
+                handlers.Add(new DefaultRestExceptionHandler());
             }
             else if(additionalHandlers == null)
             {
