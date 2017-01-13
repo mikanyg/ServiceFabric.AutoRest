@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,10 +19,9 @@ namespace ServiceFabric.AutoRest.Communication
 
         public AutoRestCommunicationClientFactory(
             IServicePartitionResolver resolver = null,
-            Func<IEnumerable<DelegatingHandler>> delegatingHandlers = null,
-            bool useDefaultExceptionHandler = true,
-            IEnumerable<IExceptionHandler> exceptionHandlers = null)
-            : base(resolver, CreateExceptionHandlers(useDefaultExceptionHandler, exceptionHandlers))
+            IEnumerable<IExceptionHandler> exceptionHandlers = null,
+            Func<IEnumerable<DelegatingHandler>> delegatingHandlers = null)
+            : base(resolver, CreateExceptionHandlers(exceptionHandlers))
         {
             this.delegatingHandlers = delegatingHandlers;
         }
@@ -56,23 +56,16 @@ namespace ServiceFabric.AutoRest.Communication
             return true;
         }
 
-        private static IEnumerable<IExceptionHandler> CreateExceptionHandlers(bool useDefault, IEnumerable<IExceptionHandler> additionalHandlers)
+        private static IEnumerable<IExceptionHandler> CreateExceptionHandlers(IEnumerable<IExceptionHandler> userDefinedHandlers)
         {
-            var handlers = new List<IExceptionHandler>();
+            var list = new List<IExceptionHandler>();
 
-            if (useDefault)
+            if (userDefinedHandlers != null)
             {
-                handlers.Add(new DefaultHttpExceptionHandler());
-                handlers.Add(new DefaultRestExceptionHandler());
-            }
-            else if(additionalHandlers == null)
-            {
-                throw new Exception("When disabling the default exception handler, additional exception handlers must be specified.");
+                list.AddRange(userDefinedHandlers);
             }
 
-            handlers.AddRange(additionalHandlers ?? Enumerable.Empty<IExceptionHandler>());
-
-            return handlers;
+            return list.Union(new[] {new DefaultHttpOperationExceptionHandler()});
         }
     }    
 }

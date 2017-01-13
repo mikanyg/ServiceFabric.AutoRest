@@ -103,8 +103,7 @@
   <ItemGroup>
     <Compile Include="AutoRestCommunicationClient.cs" />
     <Compile Include="AutoRestCommunicationClientFactory.cs" />
-    <Compile Include="DefaultHttpExceptionHandler.cs" />
-    <Compile Include="DefaultRestExceptionHandler.cs" />
+    <Compile Include="DefaultHttpOperationExceptionHandler.cs" />
     <Compile Include="IRestServicePartitionClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReliableServiceClient.cs" />
