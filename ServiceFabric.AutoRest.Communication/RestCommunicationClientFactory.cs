@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace ServiceFabric.AutoRest.Communication
 {
-    public class AutoRestCommunicationClientFactory<TServiceClient> : CommunicationClientFactoryBase<AutoRestCommunicationClient<TServiceClient>>
+    public class RestCommunicationClientFactory<TServiceClient> : CommunicationClientFactoryBase<RestCommunicationClient<TServiceClient>>
         where TServiceClient : ServiceClient<TServiceClient>
     {
         private readonly Func<IEnumerable<DelegatingHandler>> delegatingHandlers;
 
-        public AutoRestCommunicationClientFactory(
+        public RestCommunicationClientFactory(
             IServicePartitionResolver resolver = null,
             IEnumerable<IExceptionHandler> exceptionHandlers = null,
             Func<IEnumerable<DelegatingHandler>> delegatingHandlers = null)
@@ -26,12 +26,12 @@ namespace ServiceFabric.AutoRest.Communication
             this.delegatingHandlers = delegatingHandlers;
         }
 
-        protected override void AbortClient(AutoRestCommunicationClient<TServiceClient> client)
+        protected override void AbortClient(RestCommunicationClient<TServiceClient> client)
         {            
             // HTTP clients don't hold persistent connections, so no action is taken.
         }
 
-        protected override Task<AutoRestCommunicationClient<TServiceClient>> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
+        protected override Task<RestCommunicationClient<TServiceClient>> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
         {
             var baseUri = new Uri(endpoint);
             var handlers = delegatingHandlers?.Invoke()?.ToArray() ?? new DelegatingHandler[0];
@@ -41,16 +41,16 @@ namespace ServiceFabric.AutoRest.Communication
             // disabling AutoRest retry policy since Service Fabric has own retry logic.
             client.SetRetryPolicy(null);
 
-            return Task.FromResult(new AutoRestCommunicationClient<TServiceClient>(client));                        
+            return Task.FromResult(new RestCommunicationClient<TServiceClient>(client));                        
         }
 
-        protected override bool ValidateClient(AutoRestCommunicationClient<TServiceClient> client)
+        protected override bool ValidateClient(RestCommunicationClient<TServiceClient> client)
         {            
             // HTTP clients don't hold persistent connections, so no validation needs to be done.
             return true;
         }
 
-        protected override bool ValidateClient(string endpoint, AutoRestCommunicationClient<TServiceClient> client)
+        protected override bool ValidateClient(string endpoint, RestCommunicationClient<TServiceClient> client)
         {            
             // HTTP clients don't hold persistent connections, so no validation needs to be done.
             return true;

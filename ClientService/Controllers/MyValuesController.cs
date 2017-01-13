@@ -13,27 +13,31 @@ using WebApiStateful.AutoRest.Client;
 namespace ClientService.Controllers
 {
     [ServiceRequestActionFilter]
-    public class ValuesController : ApiController
+    public class MyValuesController : ApiController
     {
         private static readonly Uri statelessServiceUri = new Uri("fabric:/ServiceFabric.AutoRest.Clients/WebApi");
         private static readonly Uri statefulServiceUri = new Uri("fabric:/ServiceFabric.AutoRest.Clients/WebApiStateful");        
-        private static readonly RestCommunicationClientFactory<WebApiClient> statelessCommunicationFactory;
-        private static readonly RestCommunicationClientFactory<WebApi2> statefullCommunicationFactory;
+        private static readonly IRestServicePartitionClientFactory<WebApiClient> statelessClientFactory;
+        private static readonly IRestServicePartitionClientFactory<WebApi2> statefullClientFactory;
 
-        static ValuesController()
+        static MyValuesController()
         {
-            statelessCommunicationFactory =
+            var statelessCommunicationFactory =
                 new RestCommunicationClientFactory<WebApiClient>();
-            statefullCommunicationFactory =
+            var statefullCommunicationFactory =
                 new RestCommunicationClientFactory<WebApi2>(delegatingHandlers: () => new[] {new MyHandler()});
+
+            statelessClientFactory = new RestServicePartitionClientFactory<WebApiClient>(statelessCommunicationFactory,
+                statefulServiceUri);
+
+            statefullClientFactory = new RestServicePartitionClientFactory<WebApi2>(statefullCommunicationFactory,
+                statefulServiceUri, TargetReplicaSelector.RandomReplica);
         }    
 
         // GET api/values 
         public async Task<IEnumerable<string>> Get()
         {
-            IRestServicePartitionClient<WebApiClient> partitionClient =
-                new RestServicePartitionClient<WebApiClient>(statelessCommunicationFactory, statelessServiceUri,
-                    ServicePartitionKey.Singleton);
+            var partitionClient = statelessClientFactory.Create();
 
             var result = await partitionClient.InvokeWithRetryAsync(
                 async c => await c.ServiceClient.Values.GetAllAsync());
@@ -44,9 +48,7 @@ namespace ClientService.Controllers
         // GET api/values/5 
         public async Task<string> Get(int id)
         {
-            var partitionClient =
-                new ServicePartitionClient<RestCommunicationClient<WebApi2>>(statefullCommunicationFactory,
-                    statefulServiceUri, new ServicePartitionKey(1), TargetReplicaSelector.RandomReplica);
+            var partitionClient = statefullClientFactory.Create(new ServicePartitionKey(1));
 
             var result = await partitionClient.InvokeWithRetryAsync(
                 async c => await c.ServiceClient.Values.GetAsync(id));

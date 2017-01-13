@@ -9,10 +9,10 @@ using System.Fabric;
 
 namespace ServiceFabric.AutoRest.Communication
 {
-    public class AutoRestCommunicationClient<TServiceClient> : ICommunicationClient
+    public class RestCommunicationClient<TServiceClient> : ICommunicationClient
         where TServiceClient : ServiceClient<TServiceClient>
     {
-        public AutoRestCommunicationClient(TServiceClient client)
+        public RestCommunicationClient(TServiceClient client)
         {
             ServiceClient = client;            
         }

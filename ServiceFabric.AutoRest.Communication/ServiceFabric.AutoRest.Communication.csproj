@@ -101,12 +101,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoRestCommunicationClient.cs" />
-    <Compile Include="AutoRestCommunicationClientFactory.cs" />
+    <Compile Include="RestCommunicationClient.cs" />
+    <Compile Include="RestCommunicationClientFactory.cs" />
     <Compile Include="DefaultHttpOperationExceptionHandler.cs" />
     <Compile Include="IRestServicePartitionClient.cs" />
+    <Compile Include="IRestServicePartitionClientFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReliableServiceClient.cs" />
+    <Compile Include="RestServicePartitionClient.cs" />
+    <Compile Include="RestServicePartitionClientFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
