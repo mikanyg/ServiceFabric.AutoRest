@@ -36,7 +36,7 @@ namespace ClientService.Controllers
                     ServicePartitionKey.Singleton);
 
             var result = await partitionClient.InvokeWithRetryAsync(
-                async c => await c.ServiceClient.Values.GetAllAsync());
+                async c => await c.RestApi.Values.GetAllAsync());
 
             return result;
         }
@@ -49,7 +49,7 @@ namespace ClientService.Controllers
                     statefulServiceUri, new ServicePartitionKey(1), TargetReplicaSelector.RandomReplica);
 
             var result = await partitionClient.InvokeWithRetryAsync(
-                async c => await c.ServiceClient.Values.GetAsync(id));
+                async c => await c.RestApi.Values.GetAsync(id));
 
             return result;
         }

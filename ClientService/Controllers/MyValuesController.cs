@@ -28,7 +28,7 @@ namespace ClientService.Controllers
                 new RestCommunicationClientFactory<WebApi2>(delegatingHandlers: () => new[] {new MyHandler()});
 
             statelessClientFactory = new RestServicePartitionClientFactory<WebApiClient>(statelessCommunicationFactory,
-                statefulServiceUri);
+                statelessServiceUri);
 
             statefullClientFactory = new RestServicePartitionClientFactory<WebApi2>(statefullCommunicationFactory,
                 statefulServiceUri, TargetReplicaSelector.RandomReplica);
@@ -40,18 +40,17 @@ namespace ClientService.Controllers
             var partitionClient = statelessClientFactory.Create();
 
             var result = await partitionClient.InvokeWithRetryAsync(
-                async c => await c.ServiceClient.Values.GetAllAsync());
+                async c => await c.RestApi.Values.GetAllAsync());
 
             return result;
         }
 
         // GET api/values/5 
-        public async Task<string> Get(int id)
+        public string Get(int id)
         {
             var partitionClient = statefullClientFactory.Create(new ServicePartitionKey(1));
 
-            var result = await partitionClient.InvokeWithRetryAsync(
-                async c => await c.ServiceClient.Values.GetAsync(id));
+            var result = partitionClient.InvokeWithRetry(c => c.RestApi.Values.Get(id));
 
             return result;
         }

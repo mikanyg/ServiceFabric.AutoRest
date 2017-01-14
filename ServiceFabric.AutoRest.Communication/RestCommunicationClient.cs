@@ -14,7 +14,7 @@ namespace ServiceFabric.AutoRest.Communication
     {
         public RestCommunicationClient(TServiceClient client)
         {
-            ServiceClient = client;            
+            RestApi = client;            
         }
 
         public ResolvedServiceEndpoint Endpoint { get; set; }        
@@ -23,6 +23,6 @@ namespace ServiceFabric.AutoRest.Communication
 
         public ResolvedServicePartition ResolvedServicePartition { get; set; }
 
-        public TServiceClient ServiceClient { get; }
+        public TServiceClient RestApi { get; }
     }    
 }
