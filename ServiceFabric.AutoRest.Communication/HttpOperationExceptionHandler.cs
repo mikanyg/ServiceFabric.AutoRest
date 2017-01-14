@@ -1,10 +1,11 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using Microsoft.Rest;
 using Microsoft.ServiceFabric.Services.Communication.Client;
 
 namespace ServiceFabric.AutoRest.Communication
 {
-    public class DefaultHttpOperationExceptionHandler : IExceptionHandler
+    public class HttpOperationExceptionHandler : IExceptionHandler
     {
         public bool TryHandleException(ExceptionInformation exceptionInformation, OperationRetrySettings retrySettings, out ExceptionHandlingResult result)
         {
@@ -14,7 +15,9 @@ namespace ServiceFabric.AutoRest.Communication
             {
                 switch (ex.Response.StatusCode)
                 {
-                    case HttpStatusCode.NotFound: //TODO: implement support for X-ServiceFabric: ResourceNotFound header
+                    case HttpStatusCode.NotFound:
+                        if (HasResourceNotFoundHeader(ex.Response))
+                            break;
                         result = new ExceptionHandlingRetryResult(ex, false, retrySettings, retrySettings.DefaultMaxRetryCount);
                         return true;
                     case HttpStatusCode.ServiceUnavailable:
@@ -28,6 +31,12 @@ namespace ServiceFabric.AutoRest.Communication
 
             result = null;
             return false;
+        }
+
+        private bool HasResourceNotFoundHeader(HttpResponseMessageWrapper response)
+        {
+            return response.Headers.ContainsKey("X-ServiceFabric") &&
+                   response.Headers["X-ServiceFabric"].Contains("ResourceNotFound");
         }
     }
 }

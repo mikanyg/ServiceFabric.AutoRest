@@ -65,7 +65,7 @@ namespace ServiceFabric.AutoRest.Communication
                 list.AddRange(userDefinedHandlers);
             }
 
-            return list.Union(new[] {new DefaultHttpOperationExceptionHandler()});
+            return list.Union(new[] {new HttpOperationExceptionHandler()});
         }
     }    
 }
