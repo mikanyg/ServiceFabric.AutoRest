@@ -14,7 +14,7 @@ namespace WebApi.AutoRest.Client
 
     /// <summary>
     /// </summary>
-    public partial interface IWebApiClient : IDisposable
+    public partial interface IStatelessClient : IDisposable
     {
         /// <summary>
         /// The base URI of the service.
@@ -30,6 +30,12 @@ namespace WebApi.AutoRest.Client
         /// Gets or sets json deserialization settings.
         /// </summary>
         JsonSerializerSettings DeserializationSettings { get; }
+
+        /// <summary>
+        /// Subscription credentials which uniquely identify client
+        /// subscription.
+        /// </summary>
+        ServiceClientCredentials Credentials { get; }
 
 
         /// <summary>

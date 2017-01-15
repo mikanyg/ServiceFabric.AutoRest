@@ -17,22 +17,22 @@ namespace ClientService.Controllers
     {
         private static readonly Uri statelessServiceUri = new Uri("fabric:/ServiceFabric.AutoRest.Clients/WebApi");
         private static readonly Uri statefulServiceUri = new Uri("fabric:/ServiceFabric.AutoRest.Clients/WebApiStateful");        
-        private static readonly RestCommunicationClientFactory<WebApiClient> statelessCommunicationFactory;
-        private static readonly RestCommunicationClientFactory<WebApi2> statefullCommunicationFactory;
+        private static readonly RestCommunicationClientFactory<StatelessClient> statelessCommunicationFactory;
+        private static readonly RestCommunicationClientFactory<StatefullClient> statefullCommunicationFactory;
 
         static ValuesController()
         {
             statelessCommunicationFactory =
-                new RestCommunicationClientFactory<WebApiClient>();
+                new RestCommunicationClientFactory<StatelessClient>();
             statefullCommunicationFactory =
-                new RestCommunicationClientFactory<WebApi2>(delegatingHandlers: () => new[] {new MyHandler()});
+                new RestCommunicationClientFactory<StatefullClient>(delegatingHandlers: () => new[] {new MyHandler()});
         }    
 
         // GET api/values 
         public async Task<IEnumerable<string>> Get()
         {
-            IRestServicePartitionClient<WebApiClient> partitionClient =
-                new RestServicePartitionClient<WebApiClient>(statelessCommunicationFactory, statelessServiceUri,
+            IRestServicePartitionClient<StatelessClient> partitionClient =
+                new RestServicePartitionClient<StatelessClient>(statelessCommunicationFactory, statelessServiceUri,
                     ServicePartitionKey.Singleton);
 
             var result = await partitionClient.InvokeWithRetryAsync(
@@ -45,7 +45,7 @@ namespace ClientService.Controllers
         public async Task<string> Get(int id)
         {
             var partitionClient =
-                new ServicePartitionClient<RestCommunicationClient<WebApi2>>(statefullCommunicationFactory,
+                new ServicePartitionClient<RestCommunicationClient<StatefullClient>>(statefullCommunicationFactory,
                     statefulServiceUri, new ServicePartitionKey(1), TargetReplicaSelector.RandomReplica);
 
             var result = await partitionClient.InvokeWithRetryAsync(

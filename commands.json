@@ -1,0 +1,24 @@
+{
+  "commands": {
+    "Generate Stateless Client With Credentials": {
+      "fileName": "autorest",
+      "workingDirectory": "WebApi.AutoRest.Client",
+      "arguments": "-i swagger.json -AddCredentials true -name StatelessClient -n WebApi.AutoRest.Client -o ."
+    },
+    "Generate Stateless Client Without Credentials": {
+      "fileName": "autorest",
+      "workingDirectory": "WebApi.AutoRest.Client",
+      "arguments": "-i swagger.json -AddCredentials false -name StatelessClient -n WebApi.AutoRest.Client -o ."
+    },
+    "Generate Statefull Client With Credentials": {
+      "fileName": "autorest",
+      "workingDirectory": "WebApiStateful.AutoRest.Client",
+      "arguments": "-i swagger.json -AddCredentials true -name StatefullClient -n WebApiStateful.AutoRest.Client -o ."
+    },
+    "Generate Statefull Client Without Credentials": {
+      "fileName": "autorest",
+      "workingDirectory": "WebApiStateful.AutoRest.Client",
+      "arguments": "-i swagger.json -AddCredentials false -name StatefullClient -n WebApiStateful.AutoRest.Client -o ."
+    }
+  }
+}

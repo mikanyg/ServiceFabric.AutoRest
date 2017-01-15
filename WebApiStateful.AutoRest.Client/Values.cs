@@ -21,7 +21,7 @@ namespace WebApiStateful.AutoRest.Client
     /// <summary>
     /// Values operations.
     /// </summary>
-    public partial class Values : IServiceOperations<WebApi2>, IValues
+    public partial class Values : IServiceOperations<StatefullClient>, IValues
     {
         /// <summary>
         /// Initializes a new instance of the Values class.
@@ -29,7 +29,7 @@ namespace WebApiStateful.AutoRest.Client
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public Values(WebApi2 client)
+        public Values(StatefullClient client)
         {
             if (client == null) 
             {
@@ -39,9 +39,9 @@ namespace WebApiStateful.AutoRest.Client
         }
 
         /// <summary>
-        /// Gets a reference to the WebApi2
+        /// Gets a reference to the StatefullClient
         /// </summary>
-        public WebApi2 Client { get; private set; }
+        public StatefullClient Client { get; private set; }
 
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -87,6 +87,12 @@ namespace WebApiStateful.AutoRest.Client
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (this.Client.Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -204,6 +210,12 @@ namespace WebApiStateful.AutoRest.Client
                 _httpRequest.Content = new StringContent(_requestContent, Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
             }
+            // Set Credentials
+            if (this.Client.Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -294,6 +306,12 @@ namespace WebApiStateful.AutoRest.Client
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (this.Client.Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -415,6 +433,12 @@ namespace WebApiStateful.AutoRest.Client
                 _httpRequest.Content = new StringContent(_requestContent, Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
             }
+            // Set Credentials
+            if (this.Client.Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -505,6 +529,12 @@ namespace WebApiStateful.AutoRest.Client
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (this.Client.Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {

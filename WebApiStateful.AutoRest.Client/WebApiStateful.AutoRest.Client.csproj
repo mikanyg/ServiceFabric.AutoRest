@@ -51,12 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStatefullClient.cs" />
     <Compile Include="IValues.cs" />
-    <Compile Include="IWebApi2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatefullClient.cs" />
     <Compile Include="Values.cs" />
     <Compile Include="ValuesExtensions.cs" />
-    <Compile Include="WebApi2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

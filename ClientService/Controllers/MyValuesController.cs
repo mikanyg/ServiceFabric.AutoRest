@@ -17,20 +17,20 @@ namespace ClientService.Controllers
     {
         private static readonly Uri statelessServiceUri = new Uri("fabric:/ServiceFabric.AutoRest.Clients/WebApi");
         private static readonly Uri statefulServiceUri = new Uri("fabric:/ServiceFabric.AutoRest.Clients/WebApiStateful");        
-        private static readonly IRestServicePartitionClientFactory<WebApiClient> statelessClientFactory;
-        private static readonly IRestServicePartitionClientFactory<WebApi2> statefullClientFactory;
+        private static readonly IRestServicePartitionClientFactory<StatelessClient> statelessClientFactory;
+        private static readonly IRestServicePartitionClientFactory<StatefullClient> statefullClientFactory;
 
         static MyValuesController()
         {
             var statelessCommunicationFactory =
-                new RestCommunicationClientFactory<WebApiClient>();
+                new RestCommunicationClientFactory<StatelessClient>();
             var statefullCommunicationFactory =
-                new RestCommunicationClientFactory<WebApi2>(delegatingHandlers: () => new[] {new MyHandler()});
+                new RestCommunicationClientFactory<StatefullClient>(delegatingHandlers: () => new[] {new MyHandler()});
 
-            statelessClientFactory = new RestServicePartitionClientFactory<WebApiClient>(statelessCommunicationFactory,
+            statelessClientFactory = new RestServicePartitionClientFactory<StatelessClient>(statelessCommunicationFactory,
                 statelessServiceUri);
 
-            statefullClientFactory = new RestServicePartitionClientFactory<WebApi2>(statefullCommunicationFactory,
+            statefullClientFactory = new RestServicePartitionClientFactory<StatefullClient>(statefullCommunicationFactory,
                 statefulServiceUri, TargetReplicaSelector.RandomReplica);
         }    
 

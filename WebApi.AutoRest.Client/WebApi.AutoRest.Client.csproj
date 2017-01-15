@@ -69,12 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStatelessClient.cs" />
     <Compile Include="IValues.cs" />
-    <Compile Include="IWebApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatelessClient.cs" />
     <Compile Include="Values.cs" />
     <Compile Include="ValuesExtensions.cs" />
-    <Compile Include="WebApiClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
