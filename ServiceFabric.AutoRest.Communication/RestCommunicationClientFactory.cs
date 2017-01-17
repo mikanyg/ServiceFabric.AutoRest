@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection.Emit;
-using System.Text;
+using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,14 +16,19 @@ namespace ServiceFabric.AutoRest.Communication
         where TServiceClient : ServiceClient<TServiceClient>
     {
         private readonly Func<IEnumerable<DelegatingHandler>> delegatingHandlers;
+        private readonly ServiceClientCredentials credentials;
+        private readonly bool clientSupportsCredentials;
 
         public RestCommunicationClientFactory(
             IServicePartitionResolver resolver = null,
             IEnumerable<IExceptionHandler> exceptionHandlers = null,
-            Func<IEnumerable<DelegatingHandler>> delegatingHandlers = null)
+            Func<IEnumerable<DelegatingHandler>> delegatingHandlers = null,
+            ServiceClientCredentials credentials = null)
             : base(resolver, CreateExceptionHandlers(exceptionHandlers))
         {
             this.delegatingHandlers = delegatingHandlers;
+            this.credentials = credentials;
+            this.clientSupportsCredentials = typeof(TServiceClient).HasCredentialsSupport();
         }
 
         protected override void AbortClient(RestCommunicationClient<TServiceClient> client)
@@ -36,7 +41,32 @@ namespace ServiceFabric.AutoRest.Communication
             var baseUri = new Uri(endpoint);
             var handlers = delegatingHandlers?.Invoke()?.ToArray() ?? new DelegatingHandler[0];
 
-            var client = (TServiceClient) Activator.CreateInstance(typeof(TServiceClient), baseUri, handlers);
+            TServiceClient client;
+            try
+            {
+                if (clientSupportsCredentials)
+                {
+                    client = (TServiceClient) Activator.CreateInstance(typeof(TServiceClient), baseUri, credentials, handlers);
+                }
+                else
+                {
+                    client = (TServiceClient) Activator.CreateInstance(typeof(TServiceClient), baseUri, handlers);
+                }
+            }
+            catch (MissingMethodException ex)
+            {
+                throw new NotSupportedException($"Unable to find suitable contructor to initialize {typeof(TServiceClient).FullName}", ex);
+            }
+            catch (TargetInvocationException ex)
+            {
+                if (ex.InnerException is ArgumentException)
+                {
+                    // Keeps the stacktrace from inner exception
+                    ExceptionDispatchInfo.Capture(ex.InnerException).Throw(); 
+                }
+
+                throw;
+            }
             
             // disabling AutoRest retry policy since Service Fabric has own retry logic.
             client.SetRetryPolicy(null);
@@ -67,5 +97,5 @@ namespace ServiceFabric.AutoRest.Communication
 
             return list.Union(new[] {new HttpOperationExceptionHandler()});
         }
-    }    
+    }
 }
