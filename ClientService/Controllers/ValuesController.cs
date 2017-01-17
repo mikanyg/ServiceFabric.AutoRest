@@ -7,6 +7,7 @@ using System.Fabric;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Microsoft.Rest;
 using WebApi.AutoRest.Client;
 using WebApiStateful.AutoRest.Client;
 
@@ -25,7 +26,8 @@ namespace ClientService.Controllers
             statelessCommunicationFactory =
                 new RestCommunicationClientFactory<StatelessClient>();
             statefullCommunicationFactory =
-                new RestCommunicationClientFactory<StatefullClient>(delegatingHandlers: () => new[] {new MyHandler()});
+                new RestCommunicationClientFactory<StatefullClient>(delegatingHandlers: () => new[] {new MyHandler()},
+                    credentials: new BasicAuthenticationCredentials {UserName = "user", Password = "password"});
         }    
 
         // GET api/values 

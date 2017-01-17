@@ -31,12 +31,6 @@ namespace WebApi.AutoRest.Client
         /// </summary>
         JsonSerializerSettings DeserializationSettings { get; }
 
-        /// <summary>
-        /// Subscription credentials which uniquely identify client
-        /// subscription.
-        /// </summary>
-        ServiceClientCredentials Credentials { get; }
-
 
         /// <summary>
         /// Gets the IValues.
