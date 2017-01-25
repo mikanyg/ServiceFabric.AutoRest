@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestSettings name="Local" id="be6c14e9-0d63-41fe-8579-7c5f84a0e4a3" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Description>These are default test settings for a local test run.</Description>
+  <Deployment enabled="false" />
+  <Execution>
+    <TestTypeSpecific>
+      <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
+        <AssemblyResolution>
+          <TestDirectory useLoadContext="true" />
+        </AssemblyResolution>
+      </UnitTestRunConfig>
+      <WebTestRunConfiguration testTypeId="4e7599fa-5ecb-43e9-a887-cd63cf72d207">
+        <Browser name="Chrome 2" MaxConnections="6">
+          <Headers>
+            <Header name="User-Agent" value="Mozilla/5.0 (Windows; U; Windows NT 5.1;) AppleWebKit/530.1 (KHTML, like Gecko) Chrome/2.0.169.1 Safari/530.1" />
+            <Header name="Accept" value="*/*" />
+            <Header name="Accept-Language" value="{{$IEAcceptLanguage}}" />
+            <Header name="Accept-Encoding" value="gzip,deflate" />
+            <Header name="Accept-Charset" value="ISO-8859-1,*,utf-8" />
+          </Headers>
+        </Browser>
+      </WebTestRunConfiguration>
+    </TestTypeSpecific>
+    <AgentRule name="LocalMachineDefaultRole">
+    </AgentRule>
+  </Execution>
+  <Properties>
+    <Property name="TestSettingsUIType" value="UnitTest" />
+  </Properties>
+</TestSettings>

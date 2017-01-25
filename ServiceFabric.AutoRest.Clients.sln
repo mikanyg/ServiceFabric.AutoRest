@@ -27,9 +27,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFabric.AutoRest.Comm
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D14A411-178E-48BD-B053-0DBDD5DD0DBD}"
 	ProjectSection(SolutionItems) = preProject
+		Test\Cloud.testsettings = Test\Cloud.testsettings
 		commands.json = commands.json
+		Test\Local.testsettings = Test\Local.testsettings
 		vsts.runsettings = vsts.runsettings
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadTest", "Test\LoadTest\LoadTest.csproj", "{7EB170B6-A18E-44DA-B325-334851D6DFB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +101,14 @@ Global
 		{E04EDB5F-D2DF-4E4D-919D-E70555CDA063}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E04EDB5F-D2DF-4E4D-919D-E70555CDA063}.Release|x64.ActiveCfg = Release|Any CPU
 		{E04EDB5F-D2DF-4E4D-919D-E70555CDA063}.Release|x64.Build.0 = Release|Any CPU
+		{7EB170B6-A18E-44DA-B325-334851D6DFB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EB170B6-A18E-44DA-B325-334851D6DFB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EB170B6-A18E-44DA-B325-334851D6DFB5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7EB170B6-A18E-44DA-B325-334851D6DFB5}.Debug|x64.Build.0 = Debug|Any CPU
+		{7EB170B6-A18E-44DA-B325-334851D6DFB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EB170B6-A18E-44DA-B325-334851D6DFB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EB170B6-A18E-44DA-B325-334851D6DFB5}.Release|x64.ActiveCfg = Release|Any CPU
+		{7EB170B6-A18E-44DA-B325-334851D6DFB5}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
