@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ServiceFabric.AutoRest.Communication")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Service Fabric communication library using AutoRest created client libraries.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("mikanyg")]
 [assembly: AssemblyProduct("ServiceFabric.AutoRest.Communication")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
