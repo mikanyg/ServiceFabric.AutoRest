@@ -137,13 +137,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ServiceFabric.AutoRest.Communication\ServiceFabric.AutoRest.Communication.csproj">
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\ServiceFabric.AutoRest.Communication\ServiceFabric.AutoRest.Communication.csproj">
       <Project>{6ec66346-310d-4d9d-a4a8-10537601063d}</Project>
       <Name>ServiceFabric.AutoRest.Communication</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
