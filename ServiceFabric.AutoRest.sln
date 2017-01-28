@@ -26,7 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Test\Cloud.testsettings = Test\Cloud.testsettings
 		commands.json = commands.json
 		Test\Local.testsettings = Test\Local.testsettings
-		vsts.runsettings = vsts.runsettings
+		README.md = README.md
+		Test\vsts.runsettings = Test\vsts.runsettings
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadTest", "Test\LoadTest\LoadTest.csproj", "{7EB170B6-A18E-44DA-B325-334851D6DFB5}"
