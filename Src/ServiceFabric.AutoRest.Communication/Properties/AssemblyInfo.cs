@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ServiceFabric.AutoRest.Communication")]
-[assembly: AssemblyDescription("Service Fabric communication library using AutoRest created client libraries.")]
+[assembly: AssemblyTitle("ServiceFabric.AutoRest")]
+[assembly: AssemblyDescription("Service Fabric communication library that can be used with AutoRest generated client libraries.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("mikanyg")]
-[assembly: AssemblyProduct("ServiceFabric.AutoRest.Communication")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("ServiceFabric.AutoRest")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
