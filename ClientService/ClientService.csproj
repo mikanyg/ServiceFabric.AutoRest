@@ -80,6 +80,10 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ServiceFabric.AutoRest, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceFabric.AutoRest.0.9.0-pre\lib\net452\ServiceFabric.AutoRest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ServiceFabricServiceModel, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <HintPath>..\packages\Microsoft.ServiceFabric.Services.2.4.145\lib\net45\ServiceFabricServiceModel.dll</HintPath>
       <Private>True</Private>
@@ -131,10 +135,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Src\ServiceFabric.AutoRest.Communication\ServiceFabric.AutoRest.Communication.csproj">
-      <Project>{6ec66346-310d-4d9d-a4a8-10537601063d}</Project>
-      <Name>ServiceFabric.AutoRest.Communication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WebApi.AutoRest.Client\WebApi.AutoRest.Client.csproj">
       <Project>{f0f20bdd-a064-4a17-98a9-47d8a9f70964}</Project>
       <Name>WebApi.AutoRest.Client</Name>
