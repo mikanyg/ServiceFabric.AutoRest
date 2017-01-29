@@ -6,12 +6,12 @@
     <title>ServiceFabric.AutoRest</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <licenseUrl>https://raw.githubusercontent.com/mikanyg/ServiceFabric.AutoRest/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/mikanyg/ServiceFabric.AutoRest</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <copyright>Copyright 2017</copyright>
-    <tags>ServiceFabric Microsoft Azure Fabric AutoRest ClientRuntime REST</tags>
+    <copyright>Copyright (c) 2017 Mikael Nygaard</copyright>
+    <tags>ServiceFabric Azure Fabric AutoRest ClientRuntime REST</tags>
     <dependencies>
       <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.4" />
       <dependency id="Microsoft.ServiceFabric.Services" version="2.4.145" />
