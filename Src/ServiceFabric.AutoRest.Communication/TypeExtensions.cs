@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.Rest;
 
-namespace ServiceFabric.AutoRest.Communication
+namespace ServiceFabric.AutoRest.Communication.Client
 {
     internal static class TypeExtensions
     {

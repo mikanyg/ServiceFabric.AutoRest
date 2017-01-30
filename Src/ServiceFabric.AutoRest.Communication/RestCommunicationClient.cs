@@ -1,13 +1,8 @@
-﻿using Microsoft.Rest;
+﻿using System.Fabric;
+using Microsoft.Rest;
 using Microsoft.ServiceFabric.Services.Communication.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Fabric;
 
-namespace ServiceFabric.AutoRest.Communication
+namespace ServiceFabric.AutoRest.Communication.Client
 {
     public class RestCommunicationClient<TServiceClient> : ICommunicationClient
         where TServiceClient : ServiceClient<TServiceClient>

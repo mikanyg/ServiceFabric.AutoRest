@@ -1,13 +1,9 @@
-﻿using Microsoft.ServiceFabric.Services.Communication.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Services.Client;
+﻿using System;
 using Microsoft.Rest;
+using Microsoft.ServiceFabric.Services.Client;
+using Microsoft.ServiceFabric.Services.Communication.Client;
 
-namespace ServiceFabric.AutoRest.Communication
+namespace ServiceFabric.AutoRest.Communication.Client
 {
     public class RestServicePartitionClient<TClient> : ServicePartitionClient<RestCommunicationClient<TClient>>, IRestServicePartitionClient<TClient>
         where TClient : ServiceClient<TClient>

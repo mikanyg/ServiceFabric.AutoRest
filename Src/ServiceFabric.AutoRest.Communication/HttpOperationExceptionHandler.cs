@@ -3,7 +3,7 @@ using System.Net;
 using Microsoft.Rest;
 using Microsoft.ServiceFabric.Services.Communication.Client;
 
-namespace ServiceFabric.AutoRest.Communication
+namespace ServiceFabric.AutoRest.Communication.Client
 {
     public class HttpOperationExceptionHandler : IExceptionHandler
     {

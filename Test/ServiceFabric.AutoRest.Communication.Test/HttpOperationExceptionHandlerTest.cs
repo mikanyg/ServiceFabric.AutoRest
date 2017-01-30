@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Rest;
 using Microsoft.ServiceFabric.Services.Communication.Client;
 using NUnit.Framework;
+using ServiceFabric.AutoRest.Communication.Client;
 using Shouldly;
 
 namespace ServiceFabric.AutoRest.Communication.Test
