@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ServiceFabric.AutoRest</id>
-    <version>0.9.1-pre</version>
+    <version>1.0.0</version>
     <title>ServiceFabric.AutoRest</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
