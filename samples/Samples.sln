@@ -13,11 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService", "ClientService\ClientService.csproj", "{CADF9609-95BB-498E-9C97-001C569086FE}"
 EndProject
-Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "ServiceFabric.AutoRest.Clients", "ServiceFabric.AutoRest.Clients\ServiceFabric.AutoRest.Clients.sfproj", "{1BD2DE10-08E3-482A-B142-CAD78172F0CB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoRest Clients", "AutoRest Clients", "{A38BB8CF-CF23-4619-BD34-BC47B2F3006E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{DC22BBC3-21A1-4204-A884-06EF174E2D77}"
+EndProject
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "ServiceFabric.AutoRest.Sample", "ServiceFabric.AutoRest.Sample\ServiceFabric.AutoRest.Sample.sfproj", "{1BD2DE10-08E3-482A-B142-CAD78172F0CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
