@@ -19,11 +19,13 @@ namespace ClientService.Controllers
             var watch = new Stopwatch();
             watch.Start();
 
+            ServiceEventSource.Current.Message($"[MyHandler output] Request header {nameof(request.Headers.Authorization)}: {request.Headers.Authorization}");
+
             var response = await base.SendAsync(request, cancellationToken);
 
             watch.Stop();
 
-            ServiceEventSource.Current.Message($"Time ellapsed for request: {watch.ElapsedMilliseconds} ms");
+            ServiceEventSource.Current.Message($"[MyHandler output] Time ellapsed for request: {watch.ElapsedMilliseconds} ms");
 
             return response;
         }

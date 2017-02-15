@@ -18,7 +18,7 @@ namespace WebApiStateful.Controllers
         // GET api/values/5 
         public string Get(int id)
         {
-            return $"statefullValue: time is {DateTime.Now} and internal path is: {Request.RequestUri.PathAndQuery}";
+            return $"statefullValue: {id}, time is {DateTime.Now} and internal path is: {Request.RequestUri.PathAndQuery}";
         }
 
         // POST api/values 
