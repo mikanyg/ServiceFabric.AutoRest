@@ -10,6 +10,7 @@ using System.Web.Http;
 using Microsoft.Rest;
 using WebApi.AutoRest.Client;
 using WebApiStateful.AutoRest.Client;
+using ServiceFabric.AutoRest.Communication.Client;
 
 namespace ClientService.Controllers
 {
