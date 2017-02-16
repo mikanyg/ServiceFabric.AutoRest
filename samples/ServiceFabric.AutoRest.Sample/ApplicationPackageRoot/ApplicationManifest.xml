@@ -2,7 +2,7 @@
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ServiceFabric.AutoRest.Sample" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="WebApiStateful_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="WebApiStateful_PartitionCount" DefaultValue="1" />
+    <Parameter Name="WebApiStateful_PartitionCount" DefaultValue="2" />
     <Parameter Name="WebApiStateful_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="ClientService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="WebApi_InstanceCount" DefaultValue="-1" />

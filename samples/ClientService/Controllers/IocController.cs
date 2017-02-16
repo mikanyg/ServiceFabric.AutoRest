@@ -1,6 +1,4 @@
-﻿using Microsoft.ServiceFabric.Services.Client;
-using ServiceFabric.AutoRest.Communication.Client;
-using System;
+﻿using ServiceFabric.AutoRest.Communication.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -19,7 +17,7 @@ namespace ClientService.Controllers
             this.partitionClient = partitionClient;
         }
 
-        // GET api/stateless
+        // GET api/ioc
         public async Task<IEnumerable<string>> Get()
         {
             var result = await partitionClient.InvokeWithRetryAsync(

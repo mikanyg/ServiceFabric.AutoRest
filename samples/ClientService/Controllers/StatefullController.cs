@@ -1,4 +1,5 @@
-﻿using Microsoft.Rest;
+﻿using ClientService.Handlers;
+using Microsoft.Rest;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Communication.Client;
 using ServiceFabric.AutoRest.Communication.Client;

@@ -139,8 +139,8 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
-    <Compile Include="Controllers\MyHandler.cs" />
-    <Compile Include="Controllers\MyValuesController.cs" />
+    <Compile Include="Handlers\MyHandler.cs" />
+    <Compile Include="Controllers\PartitionController.cs" />
     <Compile Include="Controllers\StatefullController.cs" />
     <Compile Include="Controllers\IocController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

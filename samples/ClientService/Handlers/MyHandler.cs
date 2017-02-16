@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ClientService.Controllers
+namespace ClientService.Handlers
 {
     public class MyHandler : DelegatingHandler
     {

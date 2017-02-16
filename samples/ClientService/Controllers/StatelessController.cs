@@ -1,5 +1,4 @@
-﻿using Microsoft.ServiceFabric.Services.Client;
-using ServiceFabric.AutoRest.Communication.Client;
+﻿using ServiceFabric.AutoRest.Communication.Client;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
