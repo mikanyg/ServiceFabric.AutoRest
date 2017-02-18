@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D14A411-178E-48BD-B053-0DBDD5DD0DBD}"
 	ProjectSection(SolutionItems) = preProject
 		Test\Cloud.testsettings = Test\Cloud.testsettings
-		commands.json = commands.json
 		Test\Local.testsettings = Test\Local.testsettings
 		README.md = README.md
 		Test\vsts.runsettings = Test\vsts.runsettings

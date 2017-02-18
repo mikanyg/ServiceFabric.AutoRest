@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Rest;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Communication.Client;
+using System.Diagnostics;
 
 namespace ServiceFabric.AutoRest.Communication.Client
 {
@@ -38,8 +39,10 @@ namespace ServiceFabric.AutoRest.Communication.Client
 
         protected override Task<RestCommunicationClient<TServiceClient>> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
         {
+            TraceMessage($"Creating {typeof(RestCommunicationClient<TServiceClient>)} with internal service endpoint located at '{endpoint}'.");
+
             var baseUri = new Uri(endpoint);
-            var handlers = delegatingHandlers?.Invoke()?.ToArray() ?? new DelegatingHandler[0];
+            var handlers = delegatingHandlers?.Invoke()?.ToArray() ?? new DelegatingHandler[0];            
 
             TServiceClient client;
             try
@@ -47,15 +50,17 @@ namespace ServiceFabric.AutoRest.Communication.Client
                 if (clientSupportsCredentials)
                 {
                     client = (TServiceClient) Activator.CreateInstance(typeof(TServiceClient), baseUri, credentials, handlers);
+                    TraceMessage($"Created {typeof(TServiceClient)} with credentials support.");
                 }
                 else
                 {
                     client = (TServiceClient) Activator.CreateInstance(typeof(TServiceClient), baseUri, handlers);
+                    TraceMessage($"Created {typeof(TServiceClient)} without credentials support.");
                 }
             }
             catch (MissingMethodException ex)
             {
-                throw new NotSupportedException($"Unable to find suitable contructor to initialize {typeof(TServiceClient).FullName}", ex);
+                throw new NotSupportedException($"Unable to find suitable contructor to initialize {typeof(TServiceClient)}", ex);
             }
             catch (TargetInvocationException ex)
             {
@@ -67,9 +72,9 @@ namespace ServiceFabric.AutoRest.Communication.Client
 
                 throw;
             }
-            
-            // disabling AutoRest retry policy since Service Fabric has own retry logic.
-            client.SetRetryPolicy(null);
+
+            TraceMessage("Disabling AutoRest default retry policy.");
+            client.SetRetryPolicy(null);            
 
             return Task.FromResult(new RestCommunicationClient<TServiceClient>(client));                        
         }
@@ -96,6 +101,11 @@ namespace ServiceFabric.AutoRest.Communication.Client
             }
 
             return list.Union(new[] {new HttpOperationExceptionHandler()});
+        }
+
+        private static void TraceMessage(string message)
+        {
+            Trace.TraceInformation($"ServiceFabric.AutoRest, {nameof(RestCommunicationClientFactory<TServiceClient>)}: {message}");
         }
     }
 }
