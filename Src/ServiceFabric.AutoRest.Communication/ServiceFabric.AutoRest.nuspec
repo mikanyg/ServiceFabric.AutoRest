@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
     <id>ServiceFabric.AutoRest</id>
@@ -10,11 +10,10 @@
     <projectUrl>https://github.com/mikanyg/ServiceFabric.AutoRest</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>
-      1.0.1 
-        - Added Trace output for improved diagnostics.
-      1.0.0 
-        - Initial release version.
+    <releaseNotes>1.0.1
+    - Added Trace output for improved diagnostics.
+    1.0.0
+    - Initial release version.
     </releaseNotes>
     <copyright>Copyright (c) 2017 Mikael Nygaard</copyright>
     <tags>ServiceFabric Azure Fabric AutoRest ClientRuntime REST</tags>    
