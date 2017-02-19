@@ -114,9 +114,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Filters\ResourceNotFoundAttribute.cs" />
     <Compile Include="OwinCommunicationListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceRequestActionFilterAttribute.cs" />
+    <Compile Include="Filters\ServiceRequestActionFilterAttribute.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Swagger\SwaggerExtension.cs" />
     <Compile Include="WebApiStateful.cs" />

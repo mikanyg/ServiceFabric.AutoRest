@@ -2,7 +2,7 @@
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace WebApiStateful
+namespace WebApiStateful.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     internal sealed class ServiceRequestActionFilterAttribute : ActionFilterAttribute
@@ -17,5 +17,5 @@ namespace WebApiStateful
             ServiceEventSource.Current.ServiceRequestStop(actionExecutedContext.ActionContext.ActionDescriptor.ActionName,
                 actionExecutedContext.Exception?.ToString() ?? string.Empty);
         }
-    }
+    }    
 }

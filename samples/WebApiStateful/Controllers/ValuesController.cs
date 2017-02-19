@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Fabric;
 using System.Web.Http;
-using Microsoft.Owin;
+using WebApiStateful.Filters;
 
 namespace WebApiStateful.Controllers
 {
@@ -15,10 +14,15 @@ namespace WebApiStateful.Controllers
             return new string[] { "statefullValue1", "statefullValue2" };
         }
 
+
         // GET api/values/5 
-        public string Get(int id)
+        [ResourceNotFound]
+        public IHttpActionResult Get(int id)
         {
-            return $"statefullValue: {id}, time is {DateTime.Now} and internal path is: {Request.RequestUri.PathAndQuery}";
+            if (id == 42)
+                return NotFound();
+
+            return Ok($"statefullValue: {id}, time is {DateTime.Now} and internal path is: {Request.RequestUri.PathAndQuery}");
         }
 
         // POST api/values 
