@@ -27,9 +27,13 @@ namespace ServiceFabric.AutoRest.Communication.Client
             ServiceClientCredentials credentials = null)
             : base(resolver, CreateExceptionHandlers(exceptionHandlers))
         {
-            this.delegatingHandlers = delegatingHandlers;
-            this.credentials = credentials;
+            this.delegatingHandlers = delegatingHandlers;            
             this.clientSupportsCredentials = typeof(TServiceClient).HasCredentialsSupport();
+
+            if (clientSupportsCredentials && credentials == null)
+                throw new ArgumentException($"Credentials are required for type: {typeof(TServiceClient).FullName}", nameof(credentials));
+
+            this.credentials = credentials;
         }
 
         protected override void AbortClient(RestCommunicationClient<TServiceClient> client)

@@ -129,11 +129,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\Auth\IValues.cs" />
+    <Compile Include="Clients\Auth\IWebApi2.cs" />
+    <Compile Include="Clients\Auth\Values.cs" />
+    <Compile Include="Clients\Auth\ValuesExtensions.cs" />
+    <Compile Include="Clients\Auth\WebApi2.cs" />
+    <Compile Include="Clients\NoAuth\IValues.cs" />
+    <Compile Include="Clients\NoAuth\IWebApi2.cs" />
+    <Compile Include="Clients\NoAuth\Values.cs" />
+    <Compile Include="Clients\NoAuth\ValuesExtensions.cs" />
+    <Compile Include="Clients\NoAuth\WebApi2.cs" />
     <Compile Include="HttpOperationExceptionHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestCommunicationClientFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Clients\swagger.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +157,7 @@
       <Name>ServiceFabric.AutoRest.Communication</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
