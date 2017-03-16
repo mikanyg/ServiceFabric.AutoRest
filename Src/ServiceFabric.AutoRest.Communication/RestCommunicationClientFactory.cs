@@ -17,6 +17,7 @@ namespace ServiceFabric.AutoRest.Communication.Client
         where TServiceClient : ServiceClient<TServiceClient>
     {
         private readonly Func<IEnumerable<DelegatingHandler>> delegatingHandlers;
+        private readonly ICredentialsManager credentialsManager;
         private readonly ServiceClientCredentials credentials;
         private readonly bool clientSupportsCredentials;
 
@@ -24,17 +25,22 @@ namespace ServiceFabric.AutoRest.Communication.Client
             IServicePartitionResolver resolver = null,
             IEnumerable<IExceptionHandler> exceptionHandlers = null,
             Func<IEnumerable<DelegatingHandler>> delegatingHandlers = null,
-            ServiceClientCredentials credentials = null)
+            ServiceClientCredentials credentials = null,
+            ICredentialsManager credentialsManager = null)
             : base(resolver, CreateExceptionHandlers(exceptionHandlers))
         {
             this.delegatingHandlers = delegatingHandlers;            
             this.clientSupportsCredentials = typeof(TServiceClient).HasCredentialsSupport();
 
-            if (clientSupportsCredentials && credentials == null)
-                throw new ArgumentException($"Credentials are required for type: {typeof(TServiceClient).FullName}", nameof(credentials));
+            if (clientSupportsCredentials)
+            {
+                if (credentials == null && credentialsManager == null)
+                    throw new ArgumentException($"Type: {typeof(TServiceClient).FullName} was generated with authentication support, and requires either '{nameof(credentials)}' or '{nameof(credentialsManager)}' parameter.");
 
-            this.credentials = credentials;
-        }
+                this.credentials = credentials;
+                this.credentialsManager = credentialsManager;
+            }
+        }        
 
         protected override void AbortClient(RestCommunicationClient<TServiceClient> client)
         {            
@@ -53,7 +59,8 @@ namespace ServiceFabric.AutoRest.Communication.Client
             {
                 if (clientSupportsCredentials)
                 {
-                    client = (TServiceClient) Activator.CreateInstance(typeof(TServiceClient), baseUri, credentials, handlers);
+                    var creds = GetServiceCredentialsAsync().GetAwaiter().GetResult();
+                    client = (TServiceClient) Activator.CreateInstance(typeof(TServiceClient), baseUri, creds, handlers);
                     TraceMessage($"Created {typeof(TServiceClient)} with credentials support.");
                 }
                 else
@@ -93,6 +100,20 @@ namespace ServiceFabric.AutoRest.Communication.Client
         {            
             // HTTP clients don't hold persistent connections, so no validation needs to be done.
             return true;
+        }
+
+        private Task<ServiceClientCredentials> GetServiceCredentialsAsync()
+        {
+            if(credentials != null)
+            {
+                TraceMessage($"Using credentials as {nameof(ServiceClientCredentials)}.");
+                return Task.FromResult(credentials);
+            }
+            else
+            {
+                TraceMessage($"Using credentials manager to get {nameof(ServiceClientCredentials)}.");
+                return credentialsManager.GetCredentialsAsync();
+            }            
         }
 
         private static IEnumerable<IExceptionHandler> CreateExceptionHandlers(IEnumerable<IExceptionHandler> userDefinedHandlers)

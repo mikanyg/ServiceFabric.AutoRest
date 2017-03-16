@@ -101,6 +101,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICredentialsManager.cs" />
     <Compile Include="RestCommunicationClient.cs" />
     <Compile Include="RestCommunicationClientFactory.cs" />
     <Compile Include="HttpOperationExceptionHandler.cs" />
