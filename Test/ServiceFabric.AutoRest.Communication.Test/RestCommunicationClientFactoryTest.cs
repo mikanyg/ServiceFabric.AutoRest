@@ -7,6 +7,7 @@ using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using AuthWebApi = ServiceFabric.AutoRest.TestClient.Auth.WebApi2;
@@ -19,7 +20,8 @@ namespace ServiceFabric.AutoRest.Communication.Test
     {
         class TestableFactory<T> : RestCommunicationClientFactory<T> where T : ServiceClient<T>
         {
-            public TestableFactory(ServiceClientCredentials creds = null, ICredentialsManager manager = null) : base(credentials: creds, credentialsManager: manager) { }
+            public TestableFactory(Func<IEnumerable<DelegatingHandler>> delegatingHandlers = null, ServiceClientCredentials credentials = null, ICredentialsManager credentialsManager = null) 
+                : base(delegatingHandlers: delegatingHandlers, credentials: credentials, credentialsManager: credentialsManager) { }
 
             public new Task<RestCommunicationClient<T>> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
             {
@@ -27,6 +29,7 @@ namespace ServiceFabric.AutoRest.Communication.Test
             }
         }
 
+        private IEnumerable<DelegatingHandler> CustomDelegatingHandlers => new List<DelegatingHandler> { new CustomDelegatingHandler() };
         private IEnumerable<IExceptionHandler> CustomExceptionHandlers => new List<IExceptionHandler> { new CustomExceptionHandler() };
 
         [Test]
@@ -98,7 +101,7 @@ namespace ServiceFabric.AutoRest.Communication.Test
         [TestCase("http://localhost/serviceendpoint")]
         public async Task CreateClientAsync_WithCredentialsManager_ClientIsNotNull(string endpoint)
         {
-            var sut = new TestableFactory<AuthWebApi>(manager: new CustomCredentialsManager());
+            var sut = new TestableFactory<AuthWebApi>(credentialsManager: new CustomCredentialsManager());
             var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
             client.ShouldNotBeNull();
         }
@@ -106,7 +109,7 @@ namespace ServiceFabric.AutoRest.Communication.Test
         [TestCase("http://localhost/serviceendpoint", "###token###")]
         public async Task CreateClientAsync_WithTokenCredentials_ClientIsNotNull(string endpoint, string token)
         {
-            var sut = new TestableFactory<AuthWebApi>(new TokenCredentials(token));
+            var sut = new TestableFactory<AuthWebApi>(credentials: new TokenCredentials(token));
             var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
             client.ShouldNotBeNull();
         }
@@ -117,6 +120,22 @@ namespace ServiceFabric.AutoRest.Communication.Test
             var sut = new TestableFactory<NoAuthWebApi>();
             var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
             client.ShouldNotBeNull();
+        }
+
+        [TestCase("http://localhost/serviceendpoint")]
+        public async Task CreateClientAsync_WithCustomDelegatingHandler_CustomDelegatingHandlerIncluded(string endpoint)
+        {
+            var sut = new TestableFactory<NoAuthWebApi>(delegatingHandlers: () => CustomDelegatingHandlers);
+            var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
+            client.RestApi.HttpMessageHandlers.ShouldContain(handler => handler.GetType() == typeof(CustomDelegatingHandler));
+        }
+
+        [TestCase("http://localhost/serviceendpoint")]
+        public async Task CreateClientAsync_WithCustomDelegatingHandlerFuncReturningNull_NoDelegatingHandlerIncluded(string endpoint)
+        {
+            var sut = new TestableFactory<NoAuthWebApi>(delegatingHandlers: () => null);
+            var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
+            client.RestApi.HttpMessageHandlers.Count().ShouldBe(2);
         }
     }         
 }

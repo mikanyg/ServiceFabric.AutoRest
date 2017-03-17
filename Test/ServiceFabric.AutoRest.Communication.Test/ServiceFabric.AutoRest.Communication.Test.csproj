@@ -140,6 +140,7 @@
     <Compile Include="Clients\NoAuth\ValuesExtensions.cs" />
     <Compile Include="Clients\NoAuth\WebApi2.cs" />
     <Compile Include="Customization\CustomCredentialsManager.cs" />
+    <Compile Include="Customization\CustomDelegatingHandler.cs" />
     <Compile Include="Customization\CustomExceptionHandler.cs" />
     <Compile Include="HttpOperationExceptionHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
