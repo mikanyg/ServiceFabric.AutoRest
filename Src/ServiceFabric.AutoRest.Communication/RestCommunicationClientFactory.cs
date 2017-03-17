@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Microsoft.Rest;
+using Microsoft.Rest.TransientFaultHandling;
+using Microsoft.ServiceFabric.Services.Client;
+using Microsoft.ServiceFabric.Services.Communication.Client;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Rest;
-using Microsoft.ServiceFabric.Services.Client;
-using Microsoft.ServiceFabric.Services.Communication.Client;
-using System.Diagnostics;
 
 namespace ServiceFabric.AutoRest.Communication.Client
 {
@@ -84,8 +85,8 @@ namespace ServiceFabric.AutoRest.Communication.Client
                 throw;
             }
 
-            TraceMessage("Disabling AutoRest default retry policy.");
-            client.SetRetryPolicy(null);            
+            TraceMessage("Disabling AutoRest default retry policy.");            
+            client.SetRetryPolicy(new RetryPolicy<TransientErrorIgnoreStrategy>(0));
 
             return Task.FromResult(new RestCommunicationClient<TServiceClient>(client));                        
         }

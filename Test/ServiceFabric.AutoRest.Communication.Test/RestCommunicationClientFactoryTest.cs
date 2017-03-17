@@ -1,4 +1,5 @@
 ﻿using Microsoft.Rest;
+using Microsoft.Rest.TransientFaultHandling;
 using Microsoft.ServiceFabric.Services.Communication.Client;
 using NUnit.Framework;
 using ServiceFabric.AutoRest.Communication.Client;
@@ -136,6 +137,15 @@ namespace ServiceFabric.AutoRest.Communication.Test
             var sut = new TestableFactory<NoAuthWebApi>(delegatingHandlers: () => null);
             var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
             client.RestApi.HttpMessageHandlers.Count().ShouldBe(2);
+        }
+
+        [TestCase("http://localhost/serviceendpoint")]
+        public async Task CreateClientAsync_DisableAutoRestRetrys_HasTransientErrorIgnoreStrategyWithRetryCountZero(string endpoint)
+        {
+            var sut = new TestableFactory<NoAuthWebApi>();
+            var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
+            var handler = client.RestApi.HttpMessageHandlers.OfType<RetryDelegatingHandler>().Single();
+            handler.RetryPolicy.ErrorDetectionStrategy.ShouldBeOfType<TransientErrorIgnoreStrategy>();
         }
     }         
 }
