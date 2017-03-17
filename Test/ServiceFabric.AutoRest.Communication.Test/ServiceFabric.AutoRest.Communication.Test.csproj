@@ -145,6 +145,7 @@
     <Compile Include="HttpOperationExceptionHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestCommunicationClientFactoryTest.cs" />
+    <Compile Include="RestServicePartitionClientFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
