@@ -41,6 +41,11 @@ namespace ServiceFabric.AutoRest.Communication.Client
                 this.credentials = credentials;
                 this.credentialsManager = credentialsManager;
             }
+            else
+            {
+                if (credentials != null || credentialsManager != null)
+                    throw new ArgumentException($"Type: {typeof(TServiceClient).FullName} was generated without authentication support, do not set '{nameof(credentials)}' or '{nameof(credentialsManager)}' parameter.");
+            }
         }        
 
         protected override void AbortClient(RestCommunicationClient<TServiceClient> client)

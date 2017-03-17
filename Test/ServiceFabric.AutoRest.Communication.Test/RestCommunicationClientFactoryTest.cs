@@ -54,7 +54,7 @@ namespace ServiceFabric.AutoRest.Communication.Test
             var tokenCreds = new TokenCredentials(token);
             var sut = new RestCommunicationClientFactory<AuthWebApi>(credentials: tokenCreds);
             sut.ShouldNotBeNull();
-        }
+        }        
 
         [Test]
         public void NewInstance_AuthRequired_WithCredentialsManager_IsNotNull()
@@ -67,6 +67,26 @@ namespace ServiceFabric.AutoRest.Communication.Test
         public void NewInstance_AuthRequired_NoAuthentication_ThrowsArgumentException()
         {
             Should.Throw<ArgumentException>(() => new RestCommunicationClientFactory<AuthWebApi>());
+        }
+
+        [TestCase("###token###")]
+        public void NewInstance_NoAuthRequired_WithTokenCredentials_ThrowsArgumentException(string token)
+        {
+            var tokenCreds = new TokenCredentials(token);
+            Should.Throw<ArgumentException>(() => new RestCommunicationClientFactory<NoAuthWebApi>(credentials: tokenCreds));
+        }
+
+        [Test]
+        public void NewInstance_NoAuthRequired_WithCredentialsManager_ThrowsArgumentException()
+        {            
+            Should.Throw<ArgumentException>(() => new RestCommunicationClientFactory<NoAuthWebApi>(credentialsManager: new CustomCredentialsManager()));
+        }
+
+        [TestCase("###token###")]
+        public void NewInstance_NoAuthRequired_WithTokenCredentialsAndCredentialsManager_ThrowsArgumentException(string token)
+        {
+            var tokenCreds = new TokenCredentials(token);
+            Should.Throw<ArgumentException>(() => new RestCommunicationClientFactory<NoAuthWebApi>(credentials: tokenCreds, credentialsManager: new CustomCredentialsManager()));
         }
 
         [Test]
