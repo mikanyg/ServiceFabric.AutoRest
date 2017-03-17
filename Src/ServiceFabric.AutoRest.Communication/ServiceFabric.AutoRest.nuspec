@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ServiceFabric.AutoRest</id>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <title>ServiceFabric.AutoRest</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
@@ -10,12 +10,15 @@
     <projectUrl>https://github.com/mikanyg/ServiceFabric.AutoRest</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>1.0.1
+    <releaseNotes>
+    1.1.0
+    - Added support for resolving credentials at communication client creation time, through an instance of ICredentialsManager.
+    1.0.1
     - Added Trace output for improved diagnostics.
     1.0.0
     - Initial release version.
     </releaseNotes>
-    <copyright>Copyright (c) 2017 Mikael Nygaard</copyright>
+    <copyright>Copyright (c) 2017</copyright>
     <tags>ServiceFabric Azure Fabric AutoRest ClientRuntime REST</tags>    
     <dependencies>
       <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.4" />
