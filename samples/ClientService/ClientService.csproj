@@ -101,8 +101,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceFabric.AutoRest, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceFabric.AutoRest.1.0.1\lib\net452\ServiceFabric.AutoRest.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\ServiceFabric.AutoRest.1.1.0\lib\net452\ServiceFabric.AutoRest.dll</HintPath>
     </Reference>
     <Reference Include="ServiceFabricServiceModel, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <HintPath>..\packages\Microsoft.ServiceFabric.Services.2.4.145\lib\net45\ServiceFabricServiceModel.dll</HintPath>
