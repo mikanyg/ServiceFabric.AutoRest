@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using ServiceFabric.AutoRest.Communication.Test.Credentials;
 using AuthWebApi = ServiceFabric.AutoRest.TestClient.Auth.WebApi2;
 using NoAuthWebApi = ServiceFabric.AutoRest.TestClient.NoAuth.WebApi2;
 
@@ -27,6 +28,16 @@ namespace ServiceFabric.AutoRest.Communication.Test
             public new Task<RestCommunicationClient<T>> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
             {
                 return base.CreateClientAsync(endpoint, cancellationToken);
+            }
+
+            public new bool ValidateClient(RestCommunicationClient<T> client)
+            {
+                return base.ValidateClient(client);
+            }
+
+            public new bool ValidateClient(string endpoint, RestCommunicationClient<T> client)
+            {
+                return base.ValidateClient(endpoint, client);
             }
         }
 
@@ -167,5 +178,88 @@ namespace ServiceFabric.AutoRest.Communication.Test
             var handler = client.RestApi.HttpMessageHandlers.OfType<RetryDelegatingHandler>().Single();
             handler.RetryPolicy.ErrorDetectionStrategy.ShouldBeOfType<TransientErrorIgnoreStrategy>();
         }
-    }         
+
+        [TestCase("http://localhost/serviceendpoint")]
+        public async Task CreateClientAsync_SubscribingClientCreatedEvent_EventArgsHasClient(string endpoint)
+        {
+            var sut = new TestableFactory<NoAuthWebApi>();
+            CommunicationClientEventArgs<RestCommunicationClient<NoAuthWebApi>> eventArgs = null;
+            sut.ClientCreated += (sender, args) =>
+            {
+                eventArgs = args;
+            };
+            
+            var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
+
+            eventArgs.ShouldNotBeNull();
+            eventArgs.Client.ShouldBe(client);
+        }
+
+        [TestCase("http://localhost/serviceendpoint")]
+        public async Task CreateClientAsync_TokenManagerSubscribingToClientCreatedEvent_ClientPropertiesHasTokenExpirationTime(string endpoint)
+        {
+            // Arrange
+            var tokenMgr = new TokenManager();
+            var sut = new TestableFactory<AuthWebApi>(credentialsManager: tokenMgr);
+            tokenMgr.SubscribeToEvents(sut);
+            // Act
+            var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
+            // Assert
+            client.Properties.ShouldContainKey("ExpiresAt");
+        }
+
+        [TestCase("http://localhost/serviceendpoint")]
+        public async Task ValidateClient_NoSubscribers_ClientIsValid(string endpoint)
+        {
+            // Arrange
+            var sut = new TestableFactory<NoAuthWebApi>();
+            var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
+            // Act
+            bool isValid = sut.ValidateClient(client);
+            // Assert
+            isValid.ShouldBeTrue();
+        }
+
+        [TestCase("http://localhost/serviceendpoint")]
+        public async Task ValidateClientOverload_NoCredentials_ReturnsTrue(string endpoint)
+        {
+            // Arrange
+            var sut = new TestableFactory<NoAuthWebApi>();
+            var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
+            // Act
+            bool isValid = sut.ValidateClient(endpoint, client);
+            // Assert
+            isValid.ShouldBeTrue();
+        }
+
+        [TestCase("http://localhost/serviceendpoint")]
+        public async Task ValidateClient_TokenManagerValidatingClientTokenNotExpired_ClientIsValid(string endpoint)
+        {
+            // Arrange
+            var tokenMgr = new TokenManager {ExpireTokenImmediately = false};
+            var sut = new TestableFactory<AuthWebApi>(credentialsManager: tokenMgr);
+            tokenMgr.SubscribeToEvents(sut);
+
+            var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
+            // Act
+            bool isValid = sut.ValidateClient(client);
+            // Assert
+            isValid.ShouldBeTrue();
+        }
+
+        [TestCase("http://localhost/serviceendpoint")]
+        public async Task ValidateClient_TokenManagerValidatingClientTokenIsExpired_ClientIsInvalid(string endpoint)
+        {
+            // Arrange
+            var tokenMgr = new TokenManager { ExpireTokenImmediately = true };
+            var sut = new TestableFactory<AuthWebApi>(credentialsManager: tokenMgr);
+            tokenMgr.SubscribeToEvents(sut);
+
+            var client = await sut.CreateClientAsync(endpoint, CancellationToken.None);
+            // Act
+            bool isValid = sut.ValidateClient(client);
+            // Assert
+            isValid.ShouldBeFalse();
+        }
+    }
 }
