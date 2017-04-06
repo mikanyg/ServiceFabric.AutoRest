@@ -46,7 +46,18 @@ namespace ServiceFabric.AutoRest.Communication.Client
                 if (credentials != null || credentialsManager != null)
                     throw new ArgumentException($"Type: {typeof(TServiceClient).FullName} was generated without authentication support, do not set '{nameof(credentials)}' or '{nameof(credentialsManager)}' parameter.");
             }
-        }        
+        }
+
+        /// <summary>
+        /// Event handler that is fired when the Communication client has been created.
+        /// </summary>
+        public event EventHandler<CommunicationClientEventArgs<RestCommunicationClient<TServiceClient>>> ClientCreated;
+
+        /// <summary>
+        /// Event handler that is fired when the Communication client is being validated. 
+        /// Acts as an extension point to determine whether a cached communication client is still valid.
+        /// </summary>
+        public event EventHandler<CommunicationClientValidatingEventArgs<RestCommunicationClient<TServiceClient>>> ClientValidating;
 
         protected override void AbortClient(RestCommunicationClient<TServiceClient> client)
         {            
@@ -93,19 +104,37 @@ namespace ServiceFabric.AutoRest.Communication.Client
             TraceMessage("Disabling AutoRest default retry policy.");            
             client.SetRetryPolicy(new RetryPolicy<TransientErrorIgnoreStrategy>(0));
 
-            return Task.FromResult(new RestCommunicationClient<TServiceClient>(client));                        
+            var communicationClient = new RestCommunicationClient<TServiceClient>(client);
+            ClientCreated?.Invoke(this, new CommunicationClientEventArgs<RestCommunicationClient<TServiceClient>> {Client = communicationClient});
+
+            return Task.FromResult(communicationClient);
         }
 
         protected override bool ValidateClient(RestCommunicationClient<TServiceClient> client)
-        {            
+        {
             // HTTP clients don't hold persistent connections, so no validation needs to be done.
-            return true;
+            return OnValidateClient(client);
         }
 
         protected override bool ValidateClient(string endpoint, RestCommunicationClient<TServiceClient> client)
         {            
             // HTTP clients don't hold persistent connections, so no validation needs to be done.
-            return true;
+            return OnValidateClient(client);
+        }
+
+        private bool OnValidateClient(RestCommunicationClient<TServiceClient> client)
+        {
+            if (ClientValidating == null) return true;
+
+            var args = new CommunicationClientValidatingEventArgs<RestCommunicationClient<TServiceClient>>
+            {
+                Client = client,
+                IsValid = true
+            };
+
+            ClientValidating(this, args);
+
+            return args.IsValid;
         }
 
         private Task<ServiceClientCredentials> GetServiceCredentialsAsync()
