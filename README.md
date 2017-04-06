@@ -39,6 +39,7 @@ Extends the capabilities found in the `Microsoft.ServiceFabric.Services.Communic
 * Extendable exception handling
 * Extendable http delegating handler pipeline
 * Support for client credentials
+* **New extension points** through events to better control client creation and validation
 
 ## Sample
 [walk-through of sample to be added]
