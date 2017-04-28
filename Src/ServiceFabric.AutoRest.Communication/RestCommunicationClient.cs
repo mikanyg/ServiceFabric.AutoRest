@@ -18,18 +18,17 @@ namespace ServiceFabric.AutoRest.Communication.Client
             Properties = new ConcurrentDictionary<string, object>();
         }
 
-        public ResolvedServiceEndpoint Endpoint { get; set; }        
-
-        public string ListenerName { get; set; }
+        public TServiceClient RestApi { get; }
 
         /// <summary>
         /// Generic properties bag for the client.
         /// </summary>
         public IDictionary<string, object> Properties { get; }
 
-        public ResolvedServicePartition ResolvedServicePartition { get; set; }
+        ResolvedServiceEndpoint ICommunicationClient.Endpoint { get; set; }
 
-        public TServiceClient RestApi { get; }
-        
+        string ICommunicationClient.ListenerName { get; set; }
+
+        ResolvedServicePartition ICommunicationClient.ResolvedServicePartition { get; set; }
     }    
 }
