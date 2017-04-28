@@ -49,12 +49,12 @@ namespace ServiceFabric.AutoRest.Communication.Client
         }
 
         /// <summary>
-        /// Event handler that is fired when the Communication client has been created.
+        /// ClientCreated event is fired when the communication client has been created.
         /// </summary>
         public event EventHandler<CommunicationClientEventArgs<RestCommunicationClient<TServiceClient>>> ClientCreated;
 
         /// <summary>
-        /// Event handler that is fired when the Communication client is being validated. 
+        /// ClientValidating event is fired when the communication client is being validated. 
         /// Acts as an extension point to determine whether a cached communication client is still valid.
         /// </summary>
         public event EventHandler<CommunicationClientValidatingEventArgs<RestCommunicationClient<TServiceClient>>> ClientValidating;
@@ -101,40 +101,56 @@ namespace ServiceFabric.AutoRest.Communication.Client
                 throw;
             }
 
-            TraceMessage("Disabling AutoRest default retry policy.");            
             client.SetRetryPolicy(new RetryPolicy<TransientErrorIgnoreStrategy>(0));
+            TraceMessage("Disabled AutoRest default retry policy.");
 
             var communicationClient = new RestCommunicationClient<TServiceClient>(client);
-            ClientCreated?.Invoke(this, new CommunicationClientEventArgs<RestCommunicationClient<TServiceClient>> {Client = communicationClient});
+
+            if (ClientCreated != null)
+            {
+                ClientCreated(this, new CommunicationClientEventArgs<RestCommunicationClient<TServiceClient>>
+                {
+                    Client = communicationClient
+                });
+                TraceMessage($"{nameof(ClientCreated)} event handlers invoked.");
+            }
 
             return Task.FromResult(communicationClient);
         }
 
         protected override bool ValidateClient(RestCommunicationClient<TServiceClient> client)
         {
-            // HTTP clients don't hold persistent connections, so no validation needs to be done.
+            TraceMessage($"Validating {typeof(RestCommunicationClient<TServiceClient>)}.");
             return OnValidateClient(client);
         }
 
         protected override bool ValidateClient(string endpoint, RestCommunicationClient<TServiceClient> client)
-        {            
-            // HTTP clients don't hold persistent connections, so no validation needs to be done.
+        {
+            TraceMessage($"Validating {typeof(RestCommunicationClient<TServiceClient>)} with expected endpoint located at '{endpoint}'.");
             return OnValidateClient(client);
         }
 
         private bool OnValidateClient(RestCommunicationClient<TServiceClient> client)
         {
-            if (ClientValidating == null) return true;
+            bool clientIsValid = true;
 
-            var args = new CommunicationClientValidatingEventArgs<RestCommunicationClient<TServiceClient>>
+            if (ClientValidating != null)
             {
-                Client = client,
-                IsValid = true
-            };
+                var args = new CommunicationClientValidatingEventArgs<RestCommunicationClient<TServiceClient>>
+                {
+                    Client = client,
+                    IsValid = true
+                };
 
-            ClientValidating(this, args);
+                ClientValidating(this, args);
+                TraceMessage($"{nameof(ClientValidating)} event handlers invoked.");
 
-            return args.IsValid;
+                clientIsValid = args.IsValid;
+            }
+
+            TraceMessage($"Client is valid: {clientIsValid}");
+
+            return clientIsValid;
         }
 
         private Task<ServiceClientCredentials> GetServiceCredentialsAsync()
