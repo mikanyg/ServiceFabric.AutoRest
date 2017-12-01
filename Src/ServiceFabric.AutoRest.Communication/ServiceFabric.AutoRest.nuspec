@@ -31,8 +31,8 @@
     <copyright>Copyright (c) 2017</copyright>
     <tags>ServiceFabric Azure Fabric AutoRest ClientRuntime REST</tags>    
     <dependencies>
-      <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.6" />
-      <dependency id="Microsoft.ServiceFabric.Services" version="2.5.216" />
+      <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.10" />
+      <dependency id="Microsoft.ServiceFabric.Services" version="2.8.232" />
     </dependencies>
   </metadata>
 </package>
