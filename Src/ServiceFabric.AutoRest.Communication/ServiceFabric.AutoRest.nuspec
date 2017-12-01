@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ServiceFabric.AutoRest</id>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <title>ServiceFabric.AutoRest</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
@@ -11,6 +11,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>
+      1.4.1
+      - Added Newtonsoft.Json as a dependency in the proper version.
       1.4.0
       - Primary dependencies (ServiceFabric and AutoRest) updated to latest version.
       1.3.0
@@ -33,6 +35,7 @@
     <dependencies>
       <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.10" />
       <dependency id="Microsoft.ServiceFabric.Services" version="2.8.232" />
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
     </dependencies>
   </metadata>
 </package>

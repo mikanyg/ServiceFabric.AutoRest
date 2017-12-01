@@ -12,9 +12,7 @@ namespace ServiceFabric.AutoRest.Communication.Client
     {
         public RestCommunicationClient(TServiceClient client)
         {
-            if (client == null) throw new ArgumentNullException(nameof(client));
-
-            RestApi = client;
+            RestApi = client ?? throw new ArgumentNullException(nameof(client));
             Properties = new ConcurrentDictionary<string, object>();
         }
 
