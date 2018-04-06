@@ -30,7 +30,7 @@
       - Added Trace output for improved diagnostics.
       1.0.0
       - Initial release version.
-    </PackageReleaseNotes>
+</PackageReleaseNotes>
     <PackageTags>ServiceFabric Azure Fabric AutoRest ClientRuntime REST</PackageTags>
     <Copyright>Copyright © 2018</Copyright>
     <Product>ServiceFabric.AutoRest</Product>
@@ -39,8 +39,6 @@
     <Description>Service Fabric communication library that can be used with AutoRest generated client libraries.</Description>
     <RootNamespace>ServiceFabric.AutoRest.Communication.Client</RootNamespace>
     <AssemblyName>ServiceFabric.AutoRest</AssemblyName>
-
-    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
